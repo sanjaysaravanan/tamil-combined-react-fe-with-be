@@ -1,4 +1,4 @@
-const backendUrl = "http://localhost:8000/students";
+const backendUrl = `${import.meta.env.VITE_BACKEND_URL}/students`;
 
 const getAllStus = async () => {
   const response = await fetch(backendUrl);
