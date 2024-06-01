@@ -1,6 +1,5 @@
 import { useState } from "react";
-import "./App.css";
-import { getAllStus } from "./apis";
+import { getAllStus } from "../../apis/students";
 import { useEffect } from "react";
 import StudentList from "./StudentList";
 
