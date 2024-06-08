@@ -10,7 +10,9 @@ function App() {
   const loadData = async () => {
     const data = await getAllStus();
 
-    setStudents(data);
+    if (data instanceof Array) {
+      setStudents(data);
+    }
   };
 
   useEffect(() => {
