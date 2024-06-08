@@ -3,14 +3,21 @@ import StudentListApp from "./pages/students/App.jsx";
 import Register from "./pages/register/Register.jsx";
 import Login from "./pages/login/Login.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import TeacherList from "./pages/teachers/App.jsx";
+import Home from "./pages/home/Home.jsx";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<ProtectedRoute component={<Home />} />} />
         <Route
-          path="/"
+          path="/students"
           element={<ProtectedRoute component={<StudentListApp />} />}
+        />
+        <Route
+          path="/teachers"
+          element={<ProtectedRoute component={<TeacherList />} />}
         />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

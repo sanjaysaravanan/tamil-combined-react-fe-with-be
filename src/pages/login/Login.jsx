@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { userSignIn } from "../../apis/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const isAuthenticated = Boolean(localStorage.getItem("isAuthenticated"));
 
   const navigate = useNavigate();
 
@@ -14,15 +16,18 @@ const Login = () => {
 
     const data = await userSignIn({ email, password });
 
-    console.log(data);
-
     if (data.code === 1) {
       localStorage.setItem("isAuthenticated", true);
+      localStorage.setItem("token", data.token);
       navigate("/"); // redirect to home page
     } else {
       alert("Please check Your Credentials");
     }
   };
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="container mt-5">

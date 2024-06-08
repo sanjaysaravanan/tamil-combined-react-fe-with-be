@@ -1,31 +1,31 @@
 import { useState } from "react";
 import { userSignup } from "../../apis/auth";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [roles, setRoles] = useState([]);
+  const [role, setRole] = useState("Teacher");
+  const isAuthenticated = Boolean(localStorage.getItem("isAuthenticated"));
+
+  const navigate = useNavigate();
 
   const handleRoleChange = (event) => {
-    const options = event.target.options;
-    const selectedRoles = [];
-    for (let i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        selectedRoles.push(options[i].value);
-      }
-    }
-    setRoles(selectedRoles);
+    setRole(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle form submission logic
-    const data = await userSignup({ name, email, password, roles });
+    await userSignup({ name, email, password, role });
 
-    console.log(data);
+    navigate("/login");
   };
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="container mt-5">
@@ -76,17 +76,15 @@ const Register = () => {
                 <div className="form-group">
                   <label htmlFor="roles">Roles</label>
                   <select
-                    multiple
                     className="form-control"
-                    id="roles"
-                    value={roles}
+                    id="role"
+                    value={role}
                     onChange={handleRoleChange}
                     required
                   >
+                    <option value="Teacher">Teacher</option>
+                    <option value="Student">Student</option>
                     <option value="Admin">Admin</option>
-                    <option value="User">User</option>
-                    <option value="Editor">Editor</option>
-                    <option value="Viewer">Viewer</option>
                   </select>
                 </div>
                 <button type="submit" className="btn btn-primary btn-block">
